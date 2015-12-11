@@ -17,27 +17,36 @@ class MyParser(argparse.ArgumentParser):
 ############
 ### MAIN ###
 ############
-parser = MyParser('test')
+parser = MyParser('Summarize ami2-regex results')
+parser.add_argument('-v', '--verbose', action="store_true", help="verbose output")
 parser.add_argument('amiResultsPath', help='path to ami2-regex results.')
 parser.add_argument('outFile', nargs='?', type=argparse.FileType('w'))
 args = parser.parse_args()
 
 count = 0
+fileCount = 0
 out = ""
 
 for root, dirs, files in os.walk(args.amiResultsPath):
     for file in files:
+        fileCount += 1
         path = "%s/%s" % (root, file)
         if 'regex' in path:
-            out = out + "### Processing %s ###\n" % path
+            if args.verbose:
+                out = out + "### Processing %s ###\n" % path
+
             tree = ET.parse(path)
             results = tree.findall('result')
             resultsCount = len(results)
             count += resultsCount
-            out = out + "%d results\n" % resultsCount
-            out = out + ET.tostring(tree.getroot()) + "\n"
+        
+            if resultsCount > 0:
+                out = out + "Found %d results in %s\n" % (resultsCount, path)
 
-out = out + "\nSUMMARY\n%d results" % count
+                if args.verbose:
+                    out = out + ET.tostring(tree.getroot()) + "\n"
+
+out = out + "\nSUMMARY\n%d results from %d papers" % (count, fileCount)
 
 if args.outFile:
   args.outFile.write(out)
