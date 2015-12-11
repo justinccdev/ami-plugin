@@ -29,7 +29,7 @@ for root, dirs, files in os.walk(args.amiResultsPath):
     for file in files:
         path = "%s/%s" % (root, file)
         if 'regex' in path:
-            out = out + "### From %s ###\n" % path
+            out = out + "### Processing %s ###\n" % path
             tree = ET.parse(path)
             results = tree.findall('result')
             resultsCount = len(results)
