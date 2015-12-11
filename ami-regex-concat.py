@@ -24,7 +24,7 @@ args = parser.parse_args()
 
 out = ""
 
-for root, dirs, files in os.walk(args.resultsPath):
+for root, dirs, files in os.walk(args.amiResultsPath):
     for file in files:
         path = "%s/%s" % (root, file)
         if 'regex' in path:
