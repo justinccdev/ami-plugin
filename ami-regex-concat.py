@@ -23,5 +23,6 @@ for root, dirs, files in os.walk(args.resultsPath):
     for file in files:
         path = "%s/%s" % (root, file)
         if 'regex' in path:
+            print "### From %s ###" % path
             tree = ET.parse(path)
             print ET.tostring(tree.getroot())
