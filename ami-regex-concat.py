@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+# Example: python ami-regex-contact.py ../genome2010
+
 import argparse
 import ftplib
 import gzip
