@@ -4,8 +4,7 @@ import argparse
 import ftplib
 import gzip
 import os
-import os.path
-import sys 
+import xml.etree.ElementTree as ET
 
 class MyParser(argparse.ArgumentParser):
     def error(self, message):
@@ -22,5 +21,7 @@ args = parser.parse_args()
 
 for root, dirs, files in os.walk(args.resultsPath):
     for file in files:
-        if file == 'results.xml':
-            print file
+        path = "%s/%s" % (root, file)
+        if 'regex' in path:
+            tree = ET.parse(path)
+            print ET.tostring(tree.getroot())
