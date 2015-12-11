@@ -18,7 +18,7 @@ class MyParser(argparse.ArgumentParser):
 ### MAIN ###
 ############
 parser = MyParser('test')
-parser.add_argument('resultsPath', help='path to ami2-regex results.')
+parser.add_argument('amiResultsPath', help='path to ami2-regex results.')
 parser.add_argument('outFile', nargs='?', type=argparse.FileType('w'))
 args = parser.parse_args()
 
