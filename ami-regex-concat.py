@@ -19,12 +19,20 @@ class MyParser(argparse.ArgumentParser):
 ############
 parser = MyParser('test')
 parser.add_argument('resultsPath', help='path to ami2-regex results.')
+parser.add_argument('outFile', nargs='?', type=argparse.FileType('w'))
 args = parser.parse_args()
+
+out = ""
 
 for root, dirs, files in os.walk(args.resultsPath):
     for file in files:
         path = "%s/%s" % (root, file)
         if 'regex' in path:
-            print "### From %s ###" % path
+            out = out + "### From %s ###\n" % path
             tree = ET.parse(path)
-            print ET.tostring(tree.getroot())
+            out = out + ET.tostring(tree.getroot()) + "\n"
+
+if args.outFile:
+  args.outFile.write(out)
+else:
+  print out
